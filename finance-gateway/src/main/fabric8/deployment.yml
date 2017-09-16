@@ -6,9 +6,11 @@ spec:
         - 
           resources:
             requests:
-              cpu: "0.2"
+              # cpu: "0.2"
 #              memory: 256Mi
             limits:
-              cpu: "1.0"
+              # cpu: "1.0"vc 
 #              memory: 256Mi
-          
+          env:
+          - name: JAVA_OPTIONS
+            value: -XX:NativeMemoryTracking=summary -XX:MaxRAM=300m

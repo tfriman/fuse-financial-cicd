@@ -13,3 +13,5 @@ spec:
           env:
           - name: ACTIVEMQ_SERVICE_NAME
             value: broker-amq-tcp
+          - name: JAVA_OPTIONS
+            value: -XX:NativeMemoryTracking=summary -XX:MaxRAM=300m
