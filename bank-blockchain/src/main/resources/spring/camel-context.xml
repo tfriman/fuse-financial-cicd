@@ -47,27 +47,27 @@
             <to id="_totransferq" uri="amq:queue:transfer"/>
         </route>
         <route id="mockbalance">
-            <from id="_from2" uri="amq:queue:balance"/>
-            <log id="log_3" message="${body}"/>
-            <doTry id="_doTry1">
-                <bean id="toBlockchain" method="getBalance" ref="mockBitcoinApp"/>
-                <setBody id="_setBody3">
+            <from id="balance-from-queue" uri="amq:queue:balance"/>
+            <log id="log-balance" message="${body}"/>
+            <doTry id="get-balance">
+                <bean id="balance-from-bitcoin" method="getBalance" ref="mockBitcoinApp"/>
+                <setBody id="msg-balance-value">
                     <simple>Account ${header.acctid} has balance of : ${body}</simple>
                 </setBody>
                 <setHeader headerName="balancestatus" id="_setHeader2">
                     <constant>200</constant>
                 </setHeader>
-                <doCatch id="_doCatch1">
+                <doCatch id="exception-no-account-found">
                     <exception>com.redhat.fisdemoblockchain.exception.NoAccountFoundException</exception>
-                    <log id="log_5" message="No Account!!"/>
-                    <setBody id="_setBody1">
+                    <log id="log-no-account" message="No Account!!"/>
+                    <setBody id="msg-no-account-found">
                         <constant>No Account Found!</constant>
                     </setBody>
                 </doCatch>
-                <doCatch id="_doCatch2">
+                <doCatch id="exception-account-format">
                     <exception>com.redhat.fisdemoblockchain.exception.AccountFormatException</exception>
-                    <log id="log_6" message="Account Format error!!"/>
-                    <setBody id="_setBody1">
+                    <log id="log-account-format-error" message="Account Format error!!"/>
+                    <setBody id="msg-account-format-error">
                         <constant>Account Format Error!</constant>
                     </setBody>
                     <setHeader headerName="balancestatus" id="_setHeader3">
@@ -77,9 +77,9 @@
             </doTry>
         </route>
         <route id="mocktransfer">
-            <from id="_from3" uri="amq:queue:transfer"/>
-            <log id="log_4" message="Tokenized ${body}"/>
-            <bean id="_bean1" method="transfer(${body})" ref="mockBitcoinApp"/>
+            <from id="get-transfer-queue" uri="amq:queue:transfer"/>
+            <log id="log-transfer" message="Tokenized ${body}"/>
+            <bean id="do-transfer" method="transfer(${body})" ref="mockBitcoinApp"/>
         </route>
     </camelContext>
 </beans>
