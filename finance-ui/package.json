@@ -1,7 +1,7 @@
 {
-  "name": "patternfly-demo-app",
+  "name": "finance-ui",
   "version": "1.0.0",
-  "description": "Patternfly demo app",
+  "description": "Finance ui used in Fuse Financial CICD demo",
   "main": "server/app.js",
   "dependencies": {
     "patternfly": "3.11.0"
@@ -40,15 +40,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/patternfly/patternfly-demo-app.git"
+    "url": "git+https://github.com/jbossdemocentral/fuse-financial-cicd.git"
   },
   "authors": [
-    "Andres Galante <agalante@gmail.com> (https://github.com/andresgalante)",
-    "Patrick Riley <priley86@gmail.com> (https://github.com/priley86)"
+    "Christina Lin <clin@redhat.com> (https://github.com/weimeilin79)",
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/patternfly/patternfly-demo-app/issues"
+    "url": "https://github.com/jbossdemocentral/fuse-financial-cicd/issues"
   },
-  "homepage": "https://github.com/patternfly/patternfly-demo-app#readme"
+  "homepage": "https://github.com/jbossdemocentral/fuse-financial-cicd#readme"
 }

@@ -3,10 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.redhat</groupId>
-  <artifactId>fisaccount-service</artifactId>
+  <artifactId>finance-gateway</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Fuse Integration Service :: Finance :: Account</name>
-  <description>Fuse Integration Service - Traditional Account</description>
+  <name>Finance gateway</name>
+  <description>Gateway to traditional banking and blockchain</description>
   <properties>
     <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
     <fabric8.version>2.2.170.redhat-000010</fabric8.version>
@@ -41,20 +41,8 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-servlet-starter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-dozer-starter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-jaxb-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -66,17 +54,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-sql-starter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
+      <artifactId>camel-http-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -84,13 +62,39 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!--  For Hystrix -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-hystrix-starter</artifactId>
+	</dependency>
+	<dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-jsonpath-starter</artifactId>  
+    </dependency>
+    <!-- For Testing -->
+	<dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <scope>test</scope>
+	</dependency>
+    
+    <dependency>
       <groupId>org.jboss.arquillian.junit</groupId>
       <artifactId>arquillian-junit-container</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.fabric8</groupId>
+      <artifactId>fabric8-arquillian</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <repositories>
-  	 <repository>
+  	<repository>
   	 	<id>jboss.ea</id>
   	 	<name>JBoss Early Adopter</name>
   	 	<url>https://maven.repository.redhat.com/earlyaccess/all</url>
@@ -109,7 +113,7 @@
      </repository>
   </repositories>
   <pluginRepositories>
-    <pluginRepository>
+   <pluginRepository>
     	<id>jboss.ea</id>
     	<name>JBoss Early Adopter</name>
     	<url>https://maven.repository.redhat.com/earlyaccess/all</url>
@@ -171,17 +175,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>3.2.0</version>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Import-Package>*,com.sun.el;version="[2,3)"</Import-Package>
-          </instructions>
-        </configuration>
       </plugin>
     </plugins>
   </build>
