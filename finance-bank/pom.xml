@@ -45,6 +45,12 @@
       <artifactId>spring-boot-starter-jdbc</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+
+    <!-- Camel -->
+    <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-servlet-starter</artifactId>
     </dependency>
@@ -68,6 +74,7 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-sql-starter</artifactId>
     </dependency>
+
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -78,6 +85,8 @@
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
     </dependency>
+
+    <!-- Test -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -127,6 +136,7 @@
           </releases>
         </pluginRepository>
   </pluginRepositories>
+
   <build>
     <defaultGoal>spring-boot:run</defaultGoal>
     <plugins>
