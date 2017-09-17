@@ -18,19 +18,19 @@
             <apiProperty key="api.title" value="Healthcare demo clinical API"/>
             <apiProperty key="api.version" value="1.0.0"/>
         </restConfiguration>
-        <rest path="/bitcoinaccount">
-            <get uri="balance/{acctid}">
+        <rest id="bitcoinaccount" path="/bitcoinaccount">
+            <get id="rest-get-balance" uri="balance/{acctid}">
                 <to uri="direct:getBalance"/>
             </get>
-            <get uri="transfer/{acctid}/{amt}/{recptid}">
-                <to uri="direct:dotransfer"/>
+            <get id="rest-transfer" uri="transfer/{acctid}/{amt}/{recptid}">
+                <to id="to-doTransfer" uri="direct:dotransfer"/>
             </get>
         </rest>
         <!-- Camel Routes -->
         <route id="balanceRoute">
-            <from id="_from1" uri="direct:getBalance"/>
-            <log id="log_1" message="Get balance from ${headers.acctid}"/>
-            <setBody id="_setBody2">
+            <from id="getbalance" uri="direct:getBalance"/>
+            <log id="log-get-balance" message="Get balance from ${headers.acctid}"/>
+            <setBody id="setbody-acctid">
                 <simple>${headers.acctid}</simple>
             </setBody>
             <to id="_tobalanceq" uri="amq:queue:balance"/>
@@ -39,12 +39,12 @@
             </setHeader>
         </route>
         <route id="transferRoute">
-            <from id="_from1" uri="direct:dotransfer"/>
-            <log id="log_2" message="Transfering from ${header.acctid} to ${header.recptid} with ${header.amt}"/>
+            <from id="doTransfer" uri="direct:dotransfer"/>
+            <log id="logTransfer" message="Transfering from ${header.acctid} to ${header.recptid} with ${header.amt}"/>
             <setBody id="_setBodyTempMap">
                 <simple>${header.acctid},${header.amt},${header.recptid}</simple>
             </setBody>
-            <to id="_totransferq" uri="amq:queue:transfer"/>
+            <to id="to-transfer-queue" uri="amq:queue:transfer"/>
         </route>
         <route id="mockbalance">
             <from id="balance-from-queue" uri="amq:queue:balance"/>

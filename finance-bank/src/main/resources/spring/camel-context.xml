@@ -23,40 +23,40 @@
             <apiProperty key="api.title" value="Healthcare demo clinical API"/>
             <apiProperty key="api.version" value="1.0.0"/>
         </restConfiguration>
-        <rest path="/account">
-            <get uri="profile/{acctid}">
-                <to uri="direct:getprofile"/>
+        <rest id="rest-account" path="/account">
+            <get id="get-profile" uri="profile/{acctid}">
+                <to id="to-get-profile" uri="direct:getprofile"/>
             </get>
-            <put uri="profile/{acctid}">
-                <to uri="direct:createprofile"/>
+            <put id="put-profile" uri="profile/{acctid}">
+                <to id="to-create-profile" uri="direct:createprofile"/>
             </put>
-            <get uri="transfer/{acctid}/{amt}/{recptid}">
-                <to uri="direct:dotransfer"/>
+            <get id="get-transfer" uri="transfer/{acctid}/{amt}/{recptid}">
+                <to id="to-do-transfer" uri="direct:dotransfer"/>
             </get>
         </rest>
         <route id="profileroute">
-            <from id="_from1" uri="direct:getprofile"/>
-            <log id="_log1" message="Account ${headers.acctid}"/>
-            <to id="_to1" uri="sql:select * from accounts where id=:#acctid?outputClass=com.redhat.myfispipeline.Accounts&amp;dataSource=dataSource&amp;outputType=SelectOne"/>
-            <log id="_log2" message="output: ${body}"/>
+            <from id="_get-profile" uri="direct:getprofile"/>
+            <log id="log-account" message="Account ${headers.acctid}"/>
+            <to id="query-account" uri="sql:select * from accounts where id=:#acctid?outputClass=com.redhat.myfispipeline.Accounts&amp;dataSource=dataSource&amp;outputType=SelectOne"/>
+            <log id="log-account-retrieved" message="output: ${body}"/>
         </route>
         <route id="transferroute">
-            <from id="_from1" uri="direct:dotransfer"/>
-            <log id="_log3" message="Account ${headers.acctid} to ${headers.recptid} with amount ${headers.amt}"/>
-            <transacted id="_transacted1">
-                <to id="_to4" uri="sql:select  (balance-:#amt) as senderbalance from accounts where id = :#acctid?dataSource=dataSource"/>
-                <setHeader headerName="senderbalance" id="_setHeader1">
+            <from id="_get-transfer" uri="direct:dotransfer"/>
+            <log id="log-transfer" message="Account ${headers.acctid} to ${headers.recptid} with amount ${headers.amt}"/>
+            <transacted id="transaction">
+                <to id="get-sender-account" uri="sql:select  (balance-:#amt) as senderbalance from accounts where id = :#acctid?dataSource=dataSource"/>
+                <setHeader headerName="senderbalance" id="set-sender-balance">
                     <simple>${body[0]['senderbalance']}</simple>
                 </setHeader>
-                <to id="_to5" uri="sql:update accounts set balance=:#senderbalance where id = :#acctid?dataSource=dataSource"/>
-                <to id="_to6" uri="sql:select  (balance-:#amt) as recptbalance from accounts where id = :#recptid?dataSource=dataSource"/>
-                <setHeader headerName="recptbalance" id="_setHeader2">
+                <to id="update-sender-balance" uri="sql:update accounts set balance=:#senderbalance where id = :#acctid?dataSource=dataSource"/>
+                <to id="get-recpt-balance" uri="sql:select  (balance-:#amt) as recptbalance from accounts where id = :#recptid?dataSource=dataSource"/>
+                <setHeader headerName="recptbalance" id="set-recpt-balance">
                     <simple>${body[0]['recptbalance']}</simple>
                 </setHeader>
-                <to id="_to7" uri="sql:update accounts set balance = :#recptbalance where id = :#recptid?dataSource=dataSource"/>
-                <to id="_to8" uri="sql:select * from accounts where id=:#acctid?outputClass=com.redhat.myfispipeline.Accounts&amp;dataSource=dataSource&amp;outputType=SelectOne"/>
+                <to id="update-recept-balance" uri="sql:update accounts set balance = :#recptbalance where id = :#recptid?dataSource=dataSource"/>
+                <to id="get-account" uri="sql:select * from accounts where id=:#acctid?outputClass=com.redhat.myfispipeline.Accounts&amp;dataSource=dataSource&amp;outputType=SelectOne"/>
             </transacted>
-            <log id="_log4" message="output: ${body}"/>
+            <log id="log-result" message="output: ${body}"/>
         </route>
     </camelContext>
 </beans>
