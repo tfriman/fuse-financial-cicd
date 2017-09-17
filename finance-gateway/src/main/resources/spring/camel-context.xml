@@ -27,134 +27,134 @@
             <corsHeaders key="Access-Control-Allow-Methods" value="GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, CONNECT, PATCH"/>
             <corsHeaders key="Access-Control-Allow-Headers" value="Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"/>
         </restConfiguration>
-        <rest path="/sourcegateway">
+        <rest id="sourcegateway" path="/sourcegateway">
             <description>Banking Gateway</description>
-            <get uri="balance/{acctid}">
-                <to uri="direct:getbalance"/>
+            <get id="rest-get-balance" uri="balance/{acctid}">
+                <to id="_to-get-balance" uri="direct:getbalance"/>
             </get>
-            <get uri="profile/{acctid}">
-                <to uri="direct:getprofile"/>
+            <get id="rest-get-profile" uri="profile/{acctid}">
+                <to id="_to-get-profile" uri="direct:getprofile"/>
             </get>
-            <get uri="logo">
-                <to uri="direct:getlogo"/>
+            <get id="rest-get-logo" uri="logo">
+                <to id="_to-get-logo" uri="direct:getlogo"/>
             </get>
-            <post uri="transfer">
-                <to uri="direct:dotransfer"/>
+            <post id="rest-post-transfer" uri="transfer">
+                <to id="_to-do-transfer" uri="direct:dotransfer"/>
             </post>
-            <post uri="transferwithjson">
-                <to uri="direct:transferwithjson"/>
+            <post id="rest-post-tranferwithjson" uri="transferwithjson">
+                <to id="_to-transferwithjson" uri="direct:transferwithjson"/>
             </post>
         </rest>
         <route id="gatewaybalance">
-            <from id="_from1" uri="direct:getbalance"/>
-            <log id="_log1" message="do balance ${header.acctid} ${header.moneysource}"/>
+            <from id="get-balance" uri="direct:getbalance"/>
+            <log id="_do-balance" message="do balance ${header.acctid} ${header.moneysource}"/>
             <removeHeaders id="_removeHeaders1" pattern="Camel*"/>
             <setHeader headerName="CamelHttpMethod" id="_setHeader1">
                 <constant>GET</constant>
             </setHeader>
-            <choice id="_choice1">
-                <when id="_when1">
+            <choice id="choose-destination">
+                <when id="when-bitcoin">
                     <simple>${header.moneysource} == 'bitcoin'</simple>
-                    <log id="_log2" message="Bitcoin it is!"/>
-                    <hystrix id="_hystrix1">
+                    <log id="bitcoin-it-is" message="Bitcoin it is!"/>
+                    <hystrix id="circuit-breaker-1">
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
-                        <recipientList id="_recipientList1">
+                        <recipientList id="recipient-list-1">
                             <simple>http://finance-blockchain/demos/bitcoinaccount/balance/${header.acctid}?bridgeEndpoint=true</simple>
                         </recipientList>
-                        <onFallback id="_onFallback1">
-                            <to id="_handelerro01" uri="direct:doNoresponse"/>
+                        <onFallback id="on-fall-back-1">
+                            <to id="to-do-no-response-1" uri="direct:doNoresponse"/>
                         </onFallback>
                     </hystrix>
-                    <convertBodyTo id="_convertBodyTo1" type="java.lang.String"/>
-                    <unmarshal id="_unmarshal2">
+                    <convertBodyTo id="convert-to-string-1" type="java.lang.String"/>
+                    <unmarshal id="transform-to-json-1">
                         <json library="Jackson"/>
                     </unmarshal>
-                    <log id="_log3" message="${body}"/>
+                    <log id="print-body" message="${body}"/>
                 </when>
-                <otherwise id="_otherwise1">
-                    <log id="_log4" message="Traditional money source"/>
-                    <hystrix id="_hystrix2">
+                <otherwise id="otherwise">
+                    <log id="traditional-it-is" message="Traditional money source"/>
+                    <hystrix id="circuit-breaker-2">
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
-                        <recipientList id="_recipientList2">
+                        <recipientList id="recipient-list-2">
                             <simple>http://finance-bank/demos/account/profile/${header.acctid}?bridgeEndpoint=true</simple>
                         </recipientList>
-                        <convertBodyTo id="_convertBodyTo3" type="java.lang.String"/>
-                        <unmarshal id="_unmarshal1">
+                        <convertBodyTo id="convert-to-string-2" type="java.lang.String"/>
+                        <unmarshal id="transform-to-json-2">
                             <json library="Jackson"/>
                         </unmarshal>
-                        <setBody id="_setBody2">
+                        <setBody id="enrich-body">
                             <simple>Account ${header.acctid} has balance of :${body['balance']}</simple>
                         </setBody>
                         <onFallback id="_onFallback2">
-                            <to id="_handelerro02" uri="direct:doNoresponse"/>
+                            <to id="to-do-no-response-2" uri="direct:doNoresponse"/>
                         </onFallback>
                     </hystrix>
                 </otherwise>
             </choice>
         </route>
         <route id="gatewaytransfer">
-            <from id="_from2" uri="direct:dotransfer"/>
-            <log id="_log5" message="do balance ${header.acctid} ${header.amt} ${header.recptid} ${header.moneysource}"/>
-            <removeHeaders id="_removeHeaders2" pattern="Camel*"/>
+            <from id="do-transfer" uri="direct:dotransfer"/>
+            <log id="print-action" message="do balance ${header.acctid} ${header.amt} ${header.recptid} ${header.moneysource}"/>
+            <removeHeaders id="clean-headers" pattern="Camel*"/>
             <setHeader headerName="CamelHttpMethod" id="_setHeader8">
                 <constant>GET</constant>
             </setHeader>
-            <choice id="_choice2">
-                <when id="_when2">
+            <choice id="_choose-destination">
+                <when id="_when-bitcoin">
                     <simple>${header.moneysource} == 'bitcoin'</simple>
-                    <log id="_log6" message="Bitcoin transfer ${header.acctid}/${header.amt}/${header.recptid}"/>
-                    <hystrix id="_hystrix3">
+                    <log id="print-bitcoin-transfer" message="Bitcoin transfer ${header.acctid}/${header.amt}/${header.recptid}"/>
+                    <hystrix id="circuit-breaker-3">
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="_recipientList3">
                             <simple>http://finance-blockchain/demos/bitcoinaccount/transfer/${header.acctid}/${header.amt}/${header.recptid}?bridgeEndpoint=true</simple>
                         </recipientList>
-                        <convertBodyTo id="_convertBodyTo2" type="java.lang.String"/>
-                        <log id="_log7" message="${body}"/>
-                        <onFallback id="_onFallback3">
-                            <to id="_handelerro03" uri="direct:doNoresponse"/>
+                        <convertBodyTo id="_convert-to-string" type="java.lang.String"/>
+                        <log id="_print-body" message="${body}"/>
+                        <onFallback id="_on-fall-back">
+                            <to id="_to-do-no-response" uri="direct:doNoresponse"/>
                         </onFallback>
                     </hystrix>
                 </when>
-                <otherwise id="_otherwise2">
-                    <log id="_log8" message="Traditional banking ${header.acctid}/${header.amt}/${header.recptid}"/>
-                    <hystrix id="_hystrix4">
+                <otherwise id="_otherwise-2">
+                    <log id="print-traditional-transfer" message="Traditional banking ${header.acctid}/${header.amt}/${header.recptid}"/>
+                    <hystrix id="circuit-breaker-4">
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="_recipientList4">
                             <simple>http://finance-bank/demos/account/transfer/${header.acctid}/${header.amt}/${header.recptid}?bridgeEndpoint=true</simple>
                         </recipientList>
-                        <convertBodyTo id="_convertBodyTo4" type="java.lang.String"/>
-                        <unmarshal id="_unmarshal4">
+                        <convertBodyTo id="convert-to-string-4" type="java.lang.String"/>
+                        <unmarshal id="_unmarshal-json">
                             <json library="Jackson"/>
                         </unmarshal>
-                        <setBody id="_setBody4">
+                        <setBody id="_enrich-body">
                             <simple>Transfer completed, account ${header.acctid} has balance of :${body['balance']}</simple>
                         </setBody>
-                        <onFallback id="_onFallback4">
-                            <to id="_handelerro04" uri="direct:doNoresponse"/>
+                        <onFallback id="_on-fall-back-2">
+                            <to id="_to-do-no-response-2" uri="direct:doNoresponse"/>
                         </onFallback>
                     </hystrix>
                 </otherwise>
             </choice>
         </route>
         <route id="_getprofileroute">
-            <from id="_from3" uri="direct:getprofile"/>
-            <removeHeaders id="_removeHeaders3" pattern="Camel*"/>
-            <setHeader headerName="CamelHttpMethod" id="_setHeader3">
+            <from id="get-profile" uri="direct:getprofile"/>
+            <removeHeaders id="_clean-camel-headers" pattern="Camel*"/>
+            <setHeader headerName="CamelHttpMethod" id="_set-get-header">
                 <constant>GET</constant>
             </setHeader>
-            <choice id="_choice3">
-                <when id="_when3">
+            <choice id="circuit-breaker-5">
+                <when id="_bitcoin-5">
                     <simple>${header.moneysource} == 'bitcoin'</simple>
-                    <setBody id="_setBody1">
-                        <constant>Bitcoint does not support profile</constant>
+                    <setBody id="_bitcoin-not-support">
+                        <constant>Bitcoin does not support profile</constant>
                     </setBody>
                 </when>
-                <otherwise id="_otherwise3">
-                    <hystrix id="_hystrix5">
+                <otherwise id="_otherwise-5">
+                    <hystrix id="_circuit-breaker">
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="_recipientList5">
