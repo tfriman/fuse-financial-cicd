@@ -1,6 +1,7 @@
 . Setup 
 
 .. Abrir no navegador
+
     https://hawkular-metrics.apps.ocp.rhbrlab.com/hawkular/metrics
     Console OCP: https://console.ocp.rhbrlab.com:8443
     API Manager: https://rramalho-admin.3scale.net
@@ -15,7 +16,7 @@
 mvn spring-boot:run
 mvn fabric8:deploy -DskipTests
 
-curl http://financial-gateway-redhat-forum.apps.ocp.rhbrlab.com/demos/sourcegateway/balance/123456?moneysource=traditional; echo;
+curl http://financial-gateway-<seu-projeto>.apps.ocp.rhbrlab.com/demos/sourcegateway/balance/123456?moneysource=traditional; echo;
 
 NOTE: As APIs do banco tradicional e o do blockchain são internas, a única que será exposta 
 é a do gatewayservice 
@@ -55,6 +56,7 @@ NOTE: As APIs do banco tradicional e o do blockchain são internas, a única que
 
     GATEWAY_URL=http://financial-gateway-<seu-projeto>.apps.ocp.rhbrlab.com
     while true; do curl $GATEWAY_URL/demos/sourcegateway/balance/234567?moneysource=bitcoin; echo; sleep 1; done
+
 . Mostra o debug
 
 Até agora a demo foi uma pessoa construindo uma aplicação consumindo APIs da própria empresa dela, 
@@ -71,7 +73,6 @@ com um controle fino de quem está acessando o que das suas APIs.
 . Cadastrar uma aplicação e copiar o token 
 . Voltar no Finance-ui 
 .. Alterar a URL e inserir o Token 
-    financeapidemo-2445581589199.production.gw.apicast.io
 .. Fazer requisições até estourar o limite ( requisições de saldo )
 . Mostrar os os develop
 . Analytics Developer Portal 
