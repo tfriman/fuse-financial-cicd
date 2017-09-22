@@ -15,7 +15,7 @@
         <restConfiguration apiContextPath="api-docs" bindingMode="json"
             component="servlet" contextPath="/demos">
             <apiProperty key="cors" value="true"/>
-            <apiProperty key="api.title" value="Healthcare demo clinical API"/>
+            <apiProperty key="api.title" value="Finance Blockchain Demo API"/>
             <apiProperty key="api.version" value="1.0.0"/>
         </restConfiguration>
         <rest id="bitcoinaccount" path="/bitcoinaccount">
@@ -24,6 +24,9 @@
             </get>
             <get id="rest-transfer" uri="transfer/{acctid}/{amt}/{recptid}">
                 <to id="to-doTransfer" uri="direct:dotransfer"/>
+            </get>
+            <get id="_rhforum" uri="rhforum">
+                <to id="to-doTransfer" uri="direct:rhforum"/>
             </get>
         </rest>
         <!-- Camel Routes -->
