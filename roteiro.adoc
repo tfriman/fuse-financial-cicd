@@ -76,3 +76,4 @@ com um controle fino de quem está acessando o que das suas APIs.
 . Mostrar os os develop
 . Analytics Developer Portal 
 . Analytics API Mananager 
+. (Opcional) executar os pipelines pra mostrar toda integração 

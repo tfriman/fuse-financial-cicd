@@ -249,6 +249,25 @@ Here is where we tell Apicast where to look for our APIs and how the APIs can be
 
 [![Setup 3scale API management video](images/video04-0.png)](https://vimeo.com/220360925 "Fuse Banking Agile Integration Demo - Setup 3scale API management")
 
+7. Things appended to original fuse-financial-demo
+
+* Create method for each mapping rule. It's enable to show individual requests in analytics
+
+![alt text](images/methods-mapping-rules.png "Methods in Mapping rules")
+
+Create two plans:
+* basic
+** Trial with 14 days and a limit to 10 requests per minute 
+![alt text](images/basic-plan.png "Basic Plan")
+![alt text](images/basic-plan-features.png "Basic Plan Features")
+
+* premium 
+![alt text](images/premium-plan.png "Premium Plan")
+![alt text](images/premium-plan-features.png "Premium Plan Features")
+
+After, select basic plan as default.
+![alt text](images/plans.png "Premium Plan Features")
+
 ## CI/CD across integration solution
 
 ### IMPORTANT!!! Please make sure you have 3scale account setup Following CI/CD A-B Testing pipeline to work.
