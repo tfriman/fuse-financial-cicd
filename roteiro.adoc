@@ -1,0 +1,78 @@
+. Setup 
+
+.. Abrir no navegador
+    https://hawkular-metrics.apps.ocp.rhbrlab.com/hawkular/metrics
+    Console OCP: https://console.ocp.rhbrlab.com:8443
+    API Manager: https://rramalho-admin.3scale.net
+    Dev Portal:  https://rramalho.3scale.net
+
+.. Se ja tiver feito a demo antes, apagar o usuário do api-manager
+.. Apagar o broker amq e o finance-blockchain será provisionado na hora
+    oc delete all -l app=amq62-basic
+    oc delete all -l project=finance-blockchain
+
+
+mvn spring-boot:run
+mvn fabric8:deploy -DskipTests
+
+curl http://financial-gateway-redhat-forum.apps.ocp.rhbrlab.com/demos/sourcegateway/balance/123456?moneysource=traditional; echo;
+
+NOTE: As APIs do banco tradicional e o do blockchain são internas, a única que será exposta 
+é a do gatewayservice 
+
+. Provisionar AMQ (prefiro fazer via interface usando template)
+
+    user: admin
+    pass: admin
+    oc delete services broker-amq-mqtt broker-amq-stomp broker-amq-amqp
+
+. Abrir o JBoss Developer Studio 
+.. Apresentar a rota do blockchain
+.. Apresentar a rota do bank traditional (é legal mostrar como é fácil fazer transação)
+.. Adicionar um componente em um dos passos, eu utilizo um rest que só loga e seta uma constante no body
+
+    mvn spring-boot:run 
+    chrome http://localhost:8080/demos/bitcoinaccount/rhforum
+
+.. Deploy no Openshift (certifique-se que está logado no client oc)
+
+    mvn fabric8:deploy -DskipTests
+
+.. Apresenta o gatewayservice
+... Mostra que utiliza o Hystrix como componente de circuit-brekaer para interação com as outras APIs
+... Mostrar o swagger gerado automaticamente 
+
+    http://financial-gateway-redhat-forum.apps.ocp.rhbrlab.com/demos/api-docs
+
+. Abrir o Finance-ui
+    
+    chrome http://financial-gateway-<seu-projeto>.apps.ocp.rhbrlab.com
+
+.. Fazer uma consulta de saldo utilizando a conta 123456 e transferência para a 234567
+. Abre o console java (Hawtio) do Blockchain 
+. Coloca no Diagrama 
+. Executa uma carga na url de consulta do blockchain e mostra os dados passando pelo diagrama 
+
+    GATEWAY_URL=http://financial-gateway-<seu-projeto>.apps.ocp.rhbrlab.com
+    while true; do curl $GATEWAY_URL/demos/sourcegateway/balance/234567?moneysource=bitcoin; echo; sleep 1; done
+. Mostra o debug
+
+Até agora a demo foi uma pessoa construindo uma aplicação consumindo APIs da própria empresa dela, 
+supondo que ela saiba como já funciona as APIs dos outros sitemas, provavelmente são da mesma equipe 
+ou equipe muito próximas. O foco agora é como você faria para qualquer um conseguir consumir sua API, 
+com um controle fino de quem está acessando o que das suas APIs.
+
+. Entra no Gerenciador de APIs, mostra a API criada 
+. Explorar um pouco da console (dashboard, APIs)
+. Mostra os métodos mapeados 
+. Planos
+. Entrar pelo developer portal, fazer autenticação
+. Mostrar o CMS, fazer uma alteração pra mostrar (Nosso CMS é muito bom) 
+. Cadastrar uma aplicação e copiar o token 
+. Voltar no Finance-ui 
+.. Alterar a URL e inserir o Token 
+    financeapidemo-2445581589199.production.gw.apicast.io
+.. Fazer requisições até estourar o limite ( requisições de saldo )
+. Mostrar os os develop
+. Analytics Developer Portal 
+. Analytics API Mananager 
