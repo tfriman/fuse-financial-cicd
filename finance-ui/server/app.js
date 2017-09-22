@@ -32,6 +32,7 @@ bundler.plugin('done', function (stats) {
  * Run Browsersync and use middleware for Hot Module Replacement
  */
 browserSync.init({
+    port: 8080,
     server: {
         baseDir: 'dist',
         logFileChanges: true,

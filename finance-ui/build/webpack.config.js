@@ -8,12 +8,9 @@ var WriteFilesPlugin = require('write-file-webpack-plugin');
 
 module.exports = {
     debug: true,
-
     devtool: 'source-map',
-
     entry: {
         'main': './src/js/main',
-        'charts': './src/js/charts',
         'custom': './src/js/custom'
     },
 

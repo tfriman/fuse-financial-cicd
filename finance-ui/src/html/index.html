@@ -23,7 +23,7 @@
       <span class="icon-bar"></span>
     </button>
     <a class="navbar-brand" href="/">
-      Red Hat Integration
+      Red Hat Financial Integration Demo
     </a>
   </div>
   
@@ -34,17 +34,16 @@
     <div class="row">
       <div class="col-md-12">
 
-        <div class="page-header">
-          <h1>Financial Agile Integration Demo</h1>
-        </div>
-
         <div class="blank-slate-pf">
           <div class="blank-slate-pf-icon">
             <img id="rh_logo" src="img/redhat-logo.png" />
-          </div>
-          <h1>Simple Banking Demo</h1>
-          <p>This simple gui interface allows you to do day to day personal banking from your bank account and Bitcoin account</p>
-          <p>Source of this Demo is available <a href="https://github.com/jbossdemocentral/fuse-financial-cicd">here</a>.</p>
+					</div>
+					
+					<div class="bank-description"> 
+						<p>This simple gui interface allows you to do day to day personal banking from your bank account and Bitcoin account</p>
+						<p>Source of this Demo is available <a href="https://github.com/jbossdemocentral/fuse-financial-cicd">here</a>.</p>
+					</div>
+
           <div class="form-group">
 						<label class="col-sm-2 control-label" for="exampleInput">API Host <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-html="true" title="" data-content=" Your Application URL, either from Apicast or your route" data-placement="top"><span class="fa fa-info-circle"></span></a></label>
 							<div class="col-sm-10">
@@ -174,7 +173,10 @@
 	     					alert("Problem occured during API Call to gateway!");
 	     			}
 		        $("#resultbalance").val(data);
-		    }).fail(function(error) { alert("Problem occured during API Call to gateway!"); });
+		    }).fail(function(error) {
+					alert("Problem occured during API Call to gateway!"); 
+					console.log("error: "+error.data);
+				});
 		});
 		
     $("#submitTransfer").click(function(){
@@ -202,7 +204,9 @@
 	     					alert("Problem occured during API Call to gateway!");
 	     				}
 			        $("#resulttransfer").val(data);
-			    }).fail(function(error) { alert("Problem occured during API Call to gateway!"); });
+			    }).fail(function(error) { 
+						console.log("error: "+error.data);
+						alert("Problem occured during API Call to gateway!"); });
 		});
     
     
