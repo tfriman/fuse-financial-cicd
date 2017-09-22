@@ -5,11 +5,11 @@ spec:
         -
           resources:
             requests:
-              cpu: "0.2"
-              memory: 256Mi
+#              cpu: "0.2"
+#              memory: 256Mi
             limits:
-              cpu: "1.0"
-              memory: 512Mi
+#              cpu: "1.0"
+#              memory: 512Mi
           env:
           - name: ACTIVEMQ_SERVICE_NAME
             value: broker-amq-tcp
