@@ -1,10 +1,10 @@
 echo "Install the FIS 2.0 image stream"
 echo
 
-#oc login -u system:admin
-#oc project openshift
-#oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/master/fis-image-streams.json -n openshift
-#oc import-image amq62-openshift --from=registry.access.redhat.com/jboss-amq-6/amq62-openshift -n openshift --confirm
+oc login -u system:admin
+oc project openshift
+oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/master/fis-image-streams.json -n openshift
+oc import-image amq62-openshift --from=registry.access.redhat.com/jboss-amq-6/amq62-openshift -n openshift --confirm
 
 
 echo "Create fisdemo project to work in, and load the AMQ 6.2 template"
@@ -28,11 +28,11 @@ oc new-app --template=amq62-basic --param=MQ_USERNAME=admin --param=MQ_PASSWORD=
 
 
 echo "Create Traditional Banking instance"
-cd ../fisdemoaccount/
+cd ../finance-bank/
 mvn fabric8:deploy -Dmysql-service-username=dbuser -Dmysql-service-password=password
 
 echo "Create Block Chain Banking instance"
-cd ../fisdemoblockchain/
+cd ../finance-blockchain/
 mvn fabric8:deploy
 
 cd ..
