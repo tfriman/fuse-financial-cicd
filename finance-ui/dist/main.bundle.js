@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "1824c648d8a2c4071c7b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "cf60ee3e12a7f5713f89"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -37920,16 +37920,26 @@
 		Author Tobias Koppers @sokra
 	*/
 	module.exports = function(src) {
+		function log(error) {
+			(typeof console !== "undefined")
+			&& (console.error || console.log)("[Script Loader]", error);
+		}
+	
+		// Check for IE =< 8
+		function isIE() {
+			return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
+		}
+	
 		try {
-			if (typeof eval !== "undefined") {
-				eval.call(null, src);
-			} else if (typeof execScript !== "undefined") {
+			if (typeof execScript !== "undefined" && isIE()) {
 				execScript(src);
+			} else if (typeof eval !== "undefined") {
+				eval.call(null, src);
 			} else {
-				console.error("[Script Loader] EvalError: No eval function available");
+				log("EvalError: No eval function available");
 			}
 		} catch (error) {
-			console.error("[Script Loader] ", error.message);
+			log(error);
 		}
 	}
 

@@ -4,21 +4,21 @@
   "description": "Finance ui used in Fuse Financial CICD demo",
   "main": "server/app.js",
   "dependencies": {
-    "patternfly": "3.11.0"
-  },
-  "devDependencies": {
-    "amdefine": "^1.0.1",
-    "autoprefixer-loader": "^3.2.0",
+    "patternfly": "3.11.0",
     "babel-core": "^6.1.2",
     "babel-loader": "^6.1.0",
     "babel-plugin-transform-runtime": "^6.1.2",
     "babel-preset-es2015": "^6.1.2",
     "babel-preset-stage-0": "^6.1.2",
-    "browser-sync": "^2.8.0",
-    "bs-fullscreen-message": "^1.0.0",
+    "webpack": "^1.15.0",
     "copy-webpack-plugin": "^3.0.1",
-    "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "write-file-webpack-plugin": "^3.1.8",
+    "browser-sync": "^2.8.0",
+    "amdefine": "^1.0.1",
+    "autoprefixer-loader": "^3.2.0",
+    "bs-fullscreen-message": "^1.0.0",
+    "css-loader": "^0.23.1",
     "file-loader": "^0.9.0",
     "klaw": "^2.1.0",
     "less": "^2.7.1",
@@ -29,10 +29,8 @@
     "strip-ansi": "^3.0.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.15.0",
     "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.12.1",
-    "write-file-webpack-plugin": "^3.1.8"
+    "webpack-hot-middleware": "^2.12.1"
   },
   "scripts": {
     "build:dev": "webpack --config build/webpack.config.js",

@@ -43,11 +43,14 @@ NOTE: As APIs do banco tradicional e o do blockchain são internas, a única que
 ... Mostra que utiliza o Hystrix como componente de circuit-brekaer para interação com as outras APIs
 ... Mostrar o swagger gerado automaticamente 
 
-    http://financial-gateway-redhat-forum.apps.ocp.rhbrlab.com/demos/api-docs
+    http://finance-gateway-demo-financial.apps.paas.rhbrlab.com/demos/api-docs
 
 . Abrir o Finance-ui
     
-    chrome http://financial-gateway-<seu-projeto>.apps.ocp.rhbrlab.com
+    chrome http://financeui-demo-financial.apps.paas.rhbrlab.com
+
+    API HOST: finance-gateway-demo-financial.apps.paas.rhbrlab.com
+    
 
 .. Fazer uma consulta de saldo utilizando a conta 123456 e transferência para a 234567
 . Abre o console java (Hawtio) do Blockchain 

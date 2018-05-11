@@ -1,1 +1,1 @@
-mvn fabric8:deploy -Dmysql-service-username=redhat -Dmysql-service-password=redhat -DskipTests
+mvn fabric8:deploy -Dmysql-service-username=admin -Dmysql-service-password=admin -DskipTests
