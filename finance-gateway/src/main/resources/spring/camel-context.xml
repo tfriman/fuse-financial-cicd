@@ -60,7 +60,7 @@
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="recipient-list-1">
-                            <simple>http://finance-blockchain/demos/bitcoinaccount/balance/${header.acctid}?bridgeEndpoint=true</simple>
+                            <simple>http://finance-blockchain:8080/demos/bitcoinaccount/balance/${header.acctid}?bridgeEndpoint=true</simple>
                         </recipientList>
                         <onFallback id="on-fall-back-1">
                             <to id="to-do-no-response-1" uri="direct:doNoresponse"/>
@@ -78,7 +78,7 @@
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="recipient-list-2">
-                            <simple>http://finance-bank/demos/account/profile/${header.acctid}?bridgeEndpoint=true</simple>
+                            <simple>http://finance-bank:8080/demos/account/profile/${header.acctid}?bridgeEndpoint=true</simple>
                         </recipientList>
                         <convertBodyTo id="convert-to-string-2" type="java.lang.String"/>
                         <unmarshal id="transform-to-json-2">
@@ -109,7 +109,7 @@
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="_recipientList3">
-                            <simple>http://finance-blockchain/demos/bitcoinaccount/transfer/${header.acctid}/${header.amt}/${header.recptid}?bridgeEndpoint=true</simple>
+                            <simple>http://finance-blockchain:8080/demos/bitcoinaccount/transfer/${header.acctid}/${header.amt}/${header.recptid}?bridgeEndpoint=true</simple>
                         </recipientList>
                         <convertBodyTo id="_convert-to-string" type="java.lang.String"/>
                         <log id="_print-body" message="${body}"/>
@@ -124,7 +124,7 @@
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="_recipientList4">
-                            <simple>http://finance-bank/demos/account/transfer/${header.acctid}/${header.amt}/${header.recptid}?bridgeEndpoint=true</simple>
+                            <simple>http://finance-bank:8080/demos/account/transfer/${header.acctid}/${header.amt}/${header.recptid}?bridgeEndpoint=true</simple>
                         </recipientList>
                         <convertBodyTo id="convert-to-string-4" type="java.lang.String"/>
                         <unmarshal id="_unmarshal-json">
@@ -158,7 +158,7 @@
                         <hystrixConfiguration
                             circuitBreakerSleepWindowInMilliseconds="10000" executionTimeoutInMilliseconds="5000"/>
                         <recipientList id="_recipientList5">
-                            <simple>http://finance-bank/demos/account/profile/${header.acctid}?bridgeEndpoint=true</simple>
+                            <simple>http://finance-bank:8080/demos/account/profile/${header.acctid}?bridgeEndpoint=true</simple>
                         </recipientList>
                         <convertBodyTo id="convert-body-to-string" type="java.lang.String"/>
                         <onFallback id="_onFallback5">
