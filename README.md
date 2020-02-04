@@ -46,13 +46,12 @@ oc new-project fisdemo --display-name="Fuse Banking Demo - Dev and UAT" --descri
 # Import AMQ image for later
 oc import-image amq62-openshift --from=registry.access.redhat.com/jboss-amq-6/amq62-openshift --confirm
 
-cd support
 # Create template for AMQ
-oc create -f projecttemplates/amq62-openshift.json
+oc create -f support/projecttemplates/amq62-openshift.json
 
 ```
 
-## Setup MySql database, AMQ broker and Jenkins 
+## Setup MySql database, AMQ broker and Jenkins
 
 You can either setup all of them using GUI on OpenShift console, or using command line as follows
 
@@ -75,8 +74,7 @@ Go to your traditional banking account project folder, and run
 
 
 ```
-cd ..
-cd fisdemoaccount
+cd finance-bank
 mvn fabric8:deploy -Dmysql-service-username=dbuser -Dmysql-service-password=password
 ```
 
@@ -85,16 +83,17 @@ Do the same to the bitcoin gateway under it's project folder
 
 
 ```
-cd ..
-cd fisdemoblockchain
+cd ../finance-blockchain
 mvn fabric8:deploy
 ```
 
 After successfully install the application, it's time to deploy the API Gateway. This time, we are going to build a pipeline, that goes through and automated the CI/CD process from staging to UAT.
 
+https://github.com/jshiftio/openshift-maven-plugin
+
 ```
 cd ..
-oc process -f support/projecttemplates/template-uat.yml | oc create -f -
+oc process -f support/projecttemplates/template-uat.yml GIT_REPO=https://github.com/tfriman/fuse-financial-cicd.git GIT_REF=fixes CONTEXT_DIR=finance-gateway| oc apply -f -
 oc start-build fisgateway-service
 ```
 
@@ -171,7 +170,7 @@ You will receive a administration domain to manage APIs.
 	```
    B.  Setup persistence volume (if you are running with CDK V3/Minishift V1, this is optional)
 	```
-	oc new-app -f support/amptemplates/pv.yml 	```
+	oc new-app -f support/amptemplates/pv.yml	```
    C.  Install 3scale into the project by excuting following command. The WILDCARD_DOMAIN parameter set to the domain of the OpenShift for your CDK:
 
 	```
@@ -257,11 +256,11 @@ Here is where we tell Apicast where to look for our APIs and how the APIs can be
 
 Create two plans:
 * basic
-** Trial with 14 days and a limit to 10 requests per minute 
+** Trial with 14 days and a limit to 10 requests per minute
 ![alt text](images/basic-plan.png "Basic Plan")
 ![alt text](images/basic-plan-features.png "Basic Plan Features")
 
-* premium 
+* premium
 ![alt text](images/premium-plan.png "Premium Plan")
 ![alt text](images/premium-plan-features.png "Premium Plan Features")
 

@@ -18,3 +18,6 @@ endpoints:
 quickstart:
   generateOrderPeriod: 2s
   processOrderPeriod: 5s
+
+bank-url: http://finance-bank-fisdemo.apps.ocp4.timofriman.com
+blockchain-url: http://finance-blockchain-fisdemo.apps.ocp4.timofriman.com

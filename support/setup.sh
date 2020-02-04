@@ -29,11 +29,18 @@ oc new-app --template=amq62-basic --param=MQ_USERNAME=admin --param=MQ_PASSWORD=
 
 echo "Create Traditional Banking instance"
 cd ../finance-bank/
-mvn fabric8:deploy -Dmysql-service-username=dbuser -Dmysql-service-password=password
+
+mvn oc:build
+mvn oc:resource
+mvn oc:apply
+# mvn fabric8:deploy -Dmysql-service-username=dbuser -Dmysql-service-password=password
 
 echo "Create Block Chain Banking instance"
 cd ../finance-blockchain/
-mvn fabric8:deploy
+mvn oc:build
+mvn oc:resource
+mvn oc:apply
+
 
 cd ..
 oc process -f support/projecttemplates/template-uat.yml | oc create -f -

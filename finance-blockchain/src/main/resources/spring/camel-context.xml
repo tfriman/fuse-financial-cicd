@@ -23,7 +23,7 @@
                 <to uri="direct:getBalance"/>
             </get>
             <get id="rest-transfer" uri="transfer/{acctid}/{amt}/{recptid}">
-                <to id="to-doTransfer" uri="direct:dotransfer"/>
+                <to id="to-do1Transfer" uri="direct:dotransfer"/>
             </get>
             <get id="_rhforum" uri="rhforum">
                 <to id="to-doTransfer" uri="direct:rhforum"/>

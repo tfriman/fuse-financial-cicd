@@ -18,3 +18,6 @@ endpoints:
 quickstart:
   generateOrderPeriod: 10s
   processOrderPeriod: 30s
+
+bank-url: http://finance-bank:8080
+blockchain-url: http://finance-blockchain:8080
